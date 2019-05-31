@@ -1,0 +1,2 @@
+method=ai.yunxi.spi.MethodFilter
+url,xyz=ai.yunxi.spi.URLFilter
