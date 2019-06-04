@@ -53,6 +53,7 @@ public class Transporters {
         } else {
             handler = new ChannelHandlerDispatcher(handlers);
         }
+        // 获取自适应 Transporter 实例，并调用实例方法
         return getTransporter().bind(url, handler);
     }
 
