@@ -511,7 +511,7 @@ public class ExtensionLoader<T> {
                 EXTENSION_INSTANCES.putIfAbsent(clazz, clazz.newInstance());
                 instance = (T) EXTENSION_INSTANCES.get(clazz);
             }
-            // 通过set方法依赖注入
+            // 通过set方法依赖注入  IOC
             injectExtension(instance);
             Set<Class<?>> wrapperClasses = cachedWrapperClasses;
             if (wrapperClasses != null && !wrapperClasses.isEmpty()) {
@@ -622,6 +622,7 @@ public class ExtensionLoader<T> {
 
     private void loadDirectory(Map<String, Class<?>> extensionClasses, String dir) {
         // fileName = 文件夹路径 + type 全限定名
+        // */META-INF/dubbo/ai.yunxi.spi.Filter
         String fileName = dir + type.getName();
         try {
             Enumeration<java.net.URL> urls;

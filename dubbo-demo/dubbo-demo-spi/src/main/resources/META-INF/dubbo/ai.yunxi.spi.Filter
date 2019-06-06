@@ -1,2 +1,2 @@
-method=ai.yunxi.spi.MethodFilter
-url,xyz=ai.yunxi.spi.URLFilter
+method,xyz=ai.yunxi.spi.MethodFilter
+url=ai.yunxi.spi.URLFilter

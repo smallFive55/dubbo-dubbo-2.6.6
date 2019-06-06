@@ -30,6 +30,7 @@ public class Consumer {
         System.setProperty("java.net.preferIPv4Stack", "true");
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/dubbo-demo-consumer.xml"});
         context.start();
+        // 实例（代理类 -- 帮助完成远程调用）
         DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
 
         while (true) {

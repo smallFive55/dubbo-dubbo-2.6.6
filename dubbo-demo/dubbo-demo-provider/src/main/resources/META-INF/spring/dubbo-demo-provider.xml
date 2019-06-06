@@ -21,21 +21,20 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
-    <!-- provider's application name, used for tracing dependency relationship -->
+    <!-- 提供方应用信息，用于计算依赖关系 -->
     <dubbo:application name="demo-provider"/>
 
-    <!-- use zookeeper registry center to export service -->
+    <!-- 使用zookeeper广播注册中心暴露服务地址 -->
     <dubbo:registry address="zookeeper://127.0.0.1:2181" />
 
-    <!-- use dubbo protocol to export service on port 20880 -->
+    <!-- 用dubbo协议在20880端口暴露服务 -->
     <dubbo:protocol name="dubbo" port="20880"/>
 
     <!-- service implementation, as same as regular local bean -->
     <bean id="demoService" class="com.alibaba.dubbo.demo.provider.DemoServiceImpl"/>
 
+    <!-- 声明需要暴露的服务接口 -->
     <dubbo:service interface="com.alibaba.dubbo.demo.DemoService" group="demo" ref="demoService"/>
 
-    <!-- declare the service interface to be exported -->
-    <!--<dubbo:service interface="com.alibaba.dubbo.demo.DemoService" ref="demoService" />-->
 
 </beans>

@@ -11,9 +11,7 @@ import com.alibaba.dubbo.common.extension.ExtensionLoader;
 public class Demo {
     public static void main(String[] args) {
         ExtensionLoader<Filter> extensionLoader = ExtensionLoader.getExtensionLoader(Filter.class);
-
-        Filter url = extensionLoader.getExtension("url");
+        Filter url = extensionLoader.getExtension("method");
         url.invoke();
-
     }
 }
