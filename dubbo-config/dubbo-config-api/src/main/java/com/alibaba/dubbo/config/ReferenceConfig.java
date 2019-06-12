@@ -423,7 +423,6 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
                 invoker = refprotocol.refer(interfaceClass, urls.get(0));
             } else {
                 // 多个注册中心或多个服务提供者，或者两者混合
-
                 List<Invoker<?>> invokers = new ArrayList<Invoker<?>>();
                 URL registryURL = null;
                 // 获取所有的 Invoker

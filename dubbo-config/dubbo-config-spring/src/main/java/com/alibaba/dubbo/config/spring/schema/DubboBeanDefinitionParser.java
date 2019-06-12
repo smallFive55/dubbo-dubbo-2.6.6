@@ -56,6 +56,7 @@ import java.util.regex.Pattern;
 
 /**
  * AbstractBeanDefinitionParser
+ * Dubbo配置规则解析器
  *
  * @export
  */

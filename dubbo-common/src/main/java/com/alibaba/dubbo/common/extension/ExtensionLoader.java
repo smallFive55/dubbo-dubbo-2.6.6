@@ -765,6 +765,12 @@ public class ExtensionLoader<T> {
         return extension.value();
     }
 
+    /***
+     * 1. 调用 getAdaptiveExtensionClass 方法获取自适应拓展 Class 对象
+     * 2. 通过反射进行实例化
+     * 3. 调用 injectExtension 方法向拓展实例中注入依赖
+     * @return
+     */
     @SuppressWarnings("unchecked")
     private T createAdaptiveExtension() {
         try {
@@ -775,6 +781,12 @@ public class ExtensionLoader<T> {
         }
     }
 
+    /***
+     * 1. 调用 getExtensionClasses 获取所有的拓展类
+     * 2. 检查缓存，若缓存不为空，则返回缓存(若实现类中某子类类上有@Adaptive注解修饰，则将该类赋值给cachedAdaptiveClass)
+     * 3. 若缓存为空，则调用 createAdaptiveExtensionClass 创建自适应拓展类
+     * @return
+     */
     private Class<?> getAdaptiveExtensionClass() {
         // 通过SPI获取所有的扩展类
         getExtensionClasses();

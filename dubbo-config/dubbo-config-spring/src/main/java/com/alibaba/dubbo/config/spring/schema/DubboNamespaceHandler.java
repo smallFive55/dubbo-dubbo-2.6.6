@@ -30,7 +30,7 @@ import com.alibaba.dubbo.config.spring.ServiceBean;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
- * DubboNamespaceHandler
+ * Dubbo命名空间处理器
  *
  * @export
  */
