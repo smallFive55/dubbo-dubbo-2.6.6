@@ -170,6 +170,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
                 }
             } else {
                 List<URL> urls = new ArrayList<URL>();
+                // 从 providers（服务提供）、configurators（服务治理）、routers（路由配置）三个节点查找符合consumer调用接口的信息
                 for (String path : toCategoriesPath(url)) {
                     ConcurrentMap<NotifyListener, ChildListener> listeners = zkListeners.get(url);
                     if (listeners == null) {
@@ -178,6 +179,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
                     }
                     ChildListener zkListener = listeners.get(listener);
                     if (zkListener == null) {
+                        // 创建子节点监听器，监听 /configurators 节点下 子节点变化
                         listeners.putIfAbsent(listener, new ChildListener() {
                             @Override
                             public void childChanged(String parentPath, List<String> currentChilds) {
@@ -190,6 +192,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
                     zkClient.create(path, false);
                     List<String> children = zkClient.addChildListener(path, zkListener);
                     if (children != null) {
+                        // 将consumer调用接口信息与注册中心的 providers、configurators、routers 三个节点的信息，进行对比判断是否匹配（gourp、version等）
                         urls.addAll(toUrlsWithEmpty(url, path, children));
                     }
                 }
