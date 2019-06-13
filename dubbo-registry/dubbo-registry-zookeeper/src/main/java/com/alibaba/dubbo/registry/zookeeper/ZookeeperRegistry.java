@@ -192,7 +192,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
                     zkClient.create(path, false);
                     List<String> children = zkClient.addChildListener(path, zkListener);
                     if (children != null) {
-                        // 将consumer调用接口信息与注册中心的 providers、configurators、routers 三个节点的信息，进行对比判断是否匹配（gourp、version等）
+                        // 将consumer调用接口信息与注册中心的 providers、configurators、routers 三个节点的信息，进行对比判断是否匹配（interface、gourp、version等）
                         urls.addAll(toUrlsWithEmpty(url, path, children));
                     }
                 }

@@ -286,6 +286,18 @@ public class ExtensionLoader<T> {
     }
 
     /**
+     * Return default extension, return <code>null</code> if it's not configured.
+     */
+    public T getDefaultExtension() {
+        getExtensionClasses();
+        if (null == cachedDefaultName || cachedDefaultName.length() == 0
+                || "true".equals(cachedDefaultName)) {
+            return null;
+        }
+        return getExtension(cachedDefaultName);
+    }
+
+    /**
      * Find the extension with the given name. If the specified name is not found, then {@link IllegalStateException}
      * will be thrown.
      */
@@ -316,18 +328,6 @@ public class ExtensionLoader<T> {
             }
         }
         return (T) instance;
-    }
-
-    /**
-     * Return default extension, return <code>null</code> if it's not configured.
-     */
-    public T getDefaultExtension() {
-        getExtensionClasses();
-        if (null == cachedDefaultName || cachedDefaultName.length() == 0
-                || "true".equals(cachedDefaultName)) {
-            return null;
-        }
-        return getExtension(cachedDefaultName);
     }
 
     public boolean hasExtension(String name) {

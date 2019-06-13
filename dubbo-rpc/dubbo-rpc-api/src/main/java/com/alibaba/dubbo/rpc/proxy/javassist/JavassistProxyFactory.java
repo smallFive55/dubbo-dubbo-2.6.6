@@ -33,7 +33,10 @@ public class JavassistProxyFactory extends AbstractProxyFactory {
     @SuppressWarnings("unchecked")
     public <T> T getProxy(Invoker<T> invoker, Class<?>[] interfaces) {
         // 生成 Proxy 子类（Proxy 是抽象类）。并调用 Proxy 子类的 newInstance 方法创建 Proxy 实例
-        return (T) Proxy.getProxy(interfaces).newInstance(new InvokerInvocationHandler(invoker));
+        T t = (T) Proxy.getProxy(interfaces).newInstance(new InvokerInvocationHandler(invoker));
+        //T ==> Proxy ==> InvokerInvocationHandler ==> FailoverClusterInvoker ==> RegistryDirectory
+        //      ==> urlInvokerMap ==> Filter ==> DubboInvoker ==> ExchangeClient ==> NettyClient
+        return t;
     }
 
     @Override
