@@ -170,7 +170,8 @@ public class ZookeeperRegistry extends FailbackRegistry {
                 }
             } else {
                 List<URL> urls = new ArrayList<URL>();
-                // 从 providers（服务提供）、configurators（服务治理）、routers（路由配置）三个节点查找符合consumer调用接口的信息
+                //提供者：订阅configurators节点，处理服务治理
+                //消费者：从 providers（服务提供）、configurators（服务治理）、routers（路由配置）三个节点查找符合consumer调用接口的信息
                 for (String path : toCategoriesPath(url)) {
                     ConcurrentMap<NotifyListener, ChildListener> listeners = zkListeners.get(url);
                     if (listeners == null) {
