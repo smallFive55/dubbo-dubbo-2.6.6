@@ -78,12 +78,14 @@ public class MockClusterInvoker<T> implements Invoker<T> {
                 logger.info("force-mock: " + invocation.getMethodName() + " force-mock enabled , url : " + directory.getUrl());
             }
             //force:direct mock
+            // 屏蔽：系统准备大型促销活动时，有目的的直接屏蔽某些不影响主业务逻辑的接口  ===> mock=force:return null
             result = doMockInvoke(invocation, null);
         } else {
             //fail-mock
             try {
                 result = this.invoker.invoke(invocation);
             } catch (RpcException e) {
+                // 容错：当系统出现非业务异常(如：高并发导致超时、网络异常等)  ===> mock=fail:return null
                 if (e.isBiz()) {
                     throw e;
                 } else {

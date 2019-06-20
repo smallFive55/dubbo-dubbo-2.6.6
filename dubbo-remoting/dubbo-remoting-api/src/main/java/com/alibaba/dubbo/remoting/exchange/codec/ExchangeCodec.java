@@ -87,7 +87,7 @@ public class ExchangeCodec extends TelnetCodec {
 
     @Override
     protected Object decode(Channel channel, ChannelBuffer buffer, int readable, byte[] header) throws IOException {
-        // check magic number.
+        // 检查魔数
         if (readable > 0 && header[0] != MAGIC_HIGH
                 || readable > 1 && header[1] != MAGIC_LOW) {
             int length = header.length;
@@ -210,24 +210,32 @@ public class ExchangeCodec extends TelnetCodec {
 
     protected void encodeRequest(Channel channel, ChannelBuffer buffer, Request req) throws IOException {
         Serialization serialization = getSerialization(channel);
-        // header.
+        // 创建消息头字节数组，长度为 16
         byte[] header = new byte[HEADER_LENGTH];
         // set magic number.
+        // 设置魔数
         Bytes.short2bytes(MAGIC, header);
 
         // set request and serialization flag.
+        // 设置序列化器编号
         header[2] = (byte) (FLAG_REQUEST | serialization.getContentTypeId());
 
+        // 设置通信方式(单向/双向)
         if (req.isTwoWay()) header[2] |= FLAG_TWOWAY;
+        // 设置事件标识
         if (req.isEvent()) header[2] |= FLAG_EVENT;
 
         // set request id.
+        // 设置请求编号，8个字节，从第4个字节开始设置
         Bytes.long2bytes(req.getId(), header, 4);
 
-        // encode request data.
+        // 1.预留出消息头的位置，先在ChannelBuffer中写消息体
+        // 获取 buffer 当前的写位置
         int savedWriteIndex = buffer.writerIndex();
+        // 更新 writerIndex，为消息头预留 16 个字节的空间
         buffer.writerIndex(savedWriteIndex + HEADER_LENGTH);
         ChannelBufferOutputStream bos = new ChannelBufferOutputStream(buffer);
+        // 创建序列化器
         ObjectOutput out = serialization.serialize(channel.getUrl(), bos);
         if (req.isEvent()) {
             encodeEventData(channel, out, req.getData());
@@ -240,13 +248,18 @@ public class ExchangeCodec extends TelnetCodec {
         }
         bos.flush();
         bos.close();
+        // 获取写入的字节数，也就是消息体长度
         int len = bos.writtenBytes();
         checkPayload(channel, len);
+        // 将消息体长度写入到消息头中
         Bytes.int2bytes(len, header, 12);
 
-        // write
+        // 2.回到savedWriteIndex，写入消息头
+        // 将 buffer 指针移动到 savedWriteIndex，为写消息头做准备
         buffer.writerIndex(savedWriteIndex);
+        // 从 savedWriteIndex 下标处写入消息头
         buffer.writeBytes(header); // write header.
+        // 设置新的 writerIndex，writerIndex = 原写下标 + 消息头长度 + 消息体长度
         buffer.writerIndex(savedWriteIndex + HEADER_LENGTH + len);
     }
 
@@ -254,19 +267,20 @@ public class ExchangeCodec extends TelnetCodec {
         int savedWriteIndex = buffer.writerIndex();
         try {
             Serialization serialization = getSerialization(channel);
-            // header.
+            // 创建消息头字节数组
             byte[] header = new byte[HEADER_LENGTH];
-            // set magic number.
+            // 设置魔数
             Bytes.short2bytes(MAGIC, header);
-            // set request and serialization flag.
+            // 设置序列化器编号
             header[2] = serialization.getContentTypeId();
             if (res.isHeartbeat()) header[2] |= FLAG_EVENT;
-            // set response status.
+            // 设置响应状态
             byte status = res.getStatus();
             header[3] = status;
-            // set request id.
+            // 设置请求编号
             Bytes.long2bytes(res.getId(), header, 4);
 
+            // 更新 writerIndex，为消息头预留 16 个字节的空间
             buffer.writerIndex(savedWriteIndex + HEADER_LENGTH);
             ChannelBufferOutputStream bos = new ChannelBufferOutputStream(buffer);
             ObjectOutput out = serialization.serialize(channel.getUrl(), bos);
@@ -285,12 +299,16 @@ public class ExchangeCodec extends TelnetCodec {
             bos.flush();
             bos.close();
 
+            // 获取写入的字节数，也就是消息体长度
             int len = bos.writtenBytes();
             checkPayload(channel, len);
+            // 将消息体长度写入到消息头中
             Bytes.int2bytes(len, header, 12);
-            // write
+            // 将 buffer 指针移动到 savedWriteIndex，为写消息头做准备
             buffer.writerIndex(savedWriteIndex);
+            // 从 savedWriteIndex 下标处写入消息头
             buffer.writeBytes(header); // write header.
+            // 设置新的 writerIndex，writerIndex = 原写下标 + 消息头长度 + 消息体长度
             buffer.writerIndex(savedWriteIndex + HEADER_LENGTH + len);
         } catch (Throwable t) {
             // clear buffer

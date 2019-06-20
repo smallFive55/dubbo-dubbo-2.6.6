@@ -17,7 +17,10 @@
 package com.alibaba.dubbo.demo.consumer;
 
 import com.alibaba.dubbo.demo.DemoService;
+import com.alibaba.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.concurrent.Future;
 
 /***
  * XML 方式配置服务消费者
@@ -33,16 +36,18 @@ public class Consumer {
         // 实例（代理类 -- 帮助完成远程调用）
         DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
 
-        while (true) {
+//        while (true) {
             try {
                 Thread.sleep(1000);
                 String hello = demoService.sayHello("world"); // call remote method
+
+
                 System.out.println(hello); // get result
 
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
-        }
+//        }
 
     }
 }
