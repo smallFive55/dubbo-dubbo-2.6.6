@@ -2,16 +2,45 @@
 
 ### `Dubbo`源码思路梳理
 
-- `Dubbo SPI`[ExtensionLoader.getExtension(String name)]
-- `Adaptive`[ExtensionLoader.getAdaptiveExtension()]
-- 服务导出`export`[ServiceConfig.export()]
-- 服务引入`getProxy`[ReferenceBean.get()]
-- 服务调用`InvokerInvocationHandler.invoke`[InvokerInvocationHandler.invoke(Object proxy, Method method, Object[] args)]
-- 服务降级`MockClusterInvoker`[MockClusterInvoker.invoker(Invocation invocation)]
-- `Provider`接收消息并响应结果[NettyServerHandler.channelRead(ChannelHandlerContext ctx, Object msg)]
-- `Consumer`接收`Provider`响应结果[NettyClientHandler.channelRead(ChannelHandlerContext ctx, Object msg)]
-- `Dubbo`调用异步变同步[DubboInvoker.doInvoke(final Invocation invocation)]
-- `Dubbo`协议编解码[NettyCodecAdapter.InternalEncoder/NettyCodecAdapter.InternalDecoder]
+- `Dubbo SPI`
+
+  入口：ExtensionLoader.getExtension(String name)
+
+- `Adaptive`
+
+  入口：ExtensionLoader.getAdaptiveExtension()
+
+- 服务导出`export`
+
+  入口：ServiceConfig.export()
+
+- 服务引入`getProxy`
+
+  入口：ReferenceBean.get()
+
+- 服务调用`InvokerInvocationHandler.invoke`
+
+  入口：InvokerInvocationHandler.invoke(Object proxy, Method method, Object[] args)
+
+- 服务降级`MockClusterInvoker`
+
+  入口：MockClusterInvoker.invoker(Invocation invocation)
+
+- `Provider`接收消息并响应结果
+
+  入口：NettyServerHandler.channelRead(ChannelHandlerContext ctx, Object msg)
+
+- `Consumer`接收`Provider`响应结果
+
+  入口：NettyClientHandler.channelRead(ChannelHandlerContext ctx, Object msg)
+
+- `Dubbo`调用异步变同步
+
+  入口：DubboInvoker.doInvoke(final Invocation invocation)
+
+- `Dubbo`协议编解码
+
+  入口：NettyCodecAdapter.InternalEncoder/NettyCodecAdapter.InternalDecoder
 
 
 
