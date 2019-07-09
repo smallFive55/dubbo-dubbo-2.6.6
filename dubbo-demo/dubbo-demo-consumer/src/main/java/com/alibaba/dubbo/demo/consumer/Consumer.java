@@ -41,7 +41,6 @@ public class Consumer {
                 Thread.sleep(1000);
                 String hello = demoService.sayHello("world"); // call remote method
 
-
                 System.out.println(hello); // get result
 
             } catch (Throwable throwable) {
