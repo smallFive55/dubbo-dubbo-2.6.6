@@ -114,7 +114,7 @@
         <activation_version>1.2.0</activation_version>
         <hessian_lite_version>3.2.5</hessian_lite_version>
         <alibaba_spring_context_support_version>1.0.2</alibaba_spring_context_support_version>
-        <yaml_version>1.17</yaml_version>
+        <yaml_version>1.26</yaml_version>
     </properties>
 
     <dependencyManagement>
