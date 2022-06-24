@@ -99,7 +99,7 @@
         <fst_version>2.48-jdk-6</fst_version>
 
         <rs_api_version>2.0</rs_api_version>
-        <resteasy_version>3.0.19.Final</resteasy_version>
+        <resteasy_version>3.14.0.Final</resteasy_version>
         <tomcat_embed_version>8.5.31</tomcat_embed_version>
 
         <!-- Log libs -->
